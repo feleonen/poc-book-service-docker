@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    
+    <property name="LOG_PATH" value="${CATALINA_HOME}/logs"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{5}.%M - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="SAVE-TO-FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/book_service.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                %d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{5}.%M - %msg%n
+            </Pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily & on size-->
+            <maxFileSize>50MB</maxFileSize>
+            <fileNamePattern>
+                ${LOG_PATH}/archived/book_service_%d{dd-MM-yyyy}_%i.log
+            </fileNamePattern>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>100MB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!--<root level="debug">-->
+    <root level="OFF">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="SAVE-TO-FILE"/>
+    </root>
+    <springProfile name="local">
+        <root level="info">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="SAVE-TO-FILE" />
+        </root>
+        <logger name="com.poc.book" additivity="false" level="info">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="SAVE-TO-FILE" />
+        </logger>
+        <logger name="org.hibernate.SQL" additivity="false" level="info">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="SAVE-TO-FILE" />
+        </logger>
+        <logger name="org.hibernate.type" additivity="false" level="info">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="SAVE-TO-FILE" />
+        </logger>
+    </springProfile>
+    <springProfile name="dev">
+        <root level="info">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="SAVE-TO-FILE" />
+        </root>
+        <logger name="com.poc.book" additivity="false" level="info">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="SAVE-TO-FILE" />
+        </logger>
+        <logger name="org.hibernate.SQL" additivity="false" level="info">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="SAVE-TO-FILE" />
+        </logger>
+        <logger name="org.hibernate.type" additivity="false" level="info">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="SAVE-TO-FILE" />
+        </logger>
+    </springProfile>
+    <springProfile name="prod">
+        <root level="info">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="SAVE-TO-FILE" />
+        </root>
+        <logger name="com.poc.book" additivity="false" level="info">
+            <appender-ref ref="SAVE-TO-FILE" />
+        </logger>
+    </springProfile>
+</configuration>
