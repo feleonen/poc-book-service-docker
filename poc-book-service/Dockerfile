@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk11:alpine-jre
+FROM eclipse-temurin:11
 
 # Refer to Maven build -> finalName
 ARG JAR_FILE=target/book-service.jar
