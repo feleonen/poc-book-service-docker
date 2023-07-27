@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Creating SQLServer container..."
-docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=D1ngCr0n' -p 1433:1433 -d --name sqlserver2017 mcr.microsoft.com/mssql/server:2017-latest
+docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=D1ngCr0n" -p 1433:1433 -d --name sqlserver2017 mcr.microsoft.com/mssql/server:2017-latest
 sleep 10
 
 echo "Building POC APP image..."
