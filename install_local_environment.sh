@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo "Creating SQLServer container..."
-docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=D1ngCr0n' -p 1433:1433 -d --name sqlserver2017 mcr.microsoft.com/mssql/server:2017-latest
+echo "Creating Postgres container..."
+docker run --name postgresql  -e 'ACCEPT_EULA=Y' -e POSTGRES_PASSWORD=D1ngCr0n -p 5432:5432 -d postgres
 sleep 10
 
 echo "Building POC APP image..."
@@ -17,13 +17,13 @@ sleep 10
 
 echo "Creating POC_BOOK_NETWORK..."
 docker network create poc_book_network
-docker network connect poc_book_network sqlserver2017
+docker network connect poc_book_network postgresql
 docker network connect poc_book_network activemq
 sleep 10
 
 echo "Creating POC Initial Data DB..."
-docker cp create_poc_db.sql sqlserver2017:/
-docker exec sqlserver2017 bash -c "/opt/mssql-tools/bin/sqlcmd -U sa -P D1ngCr0n -i /create_poc_db.sql" 
+docker cp create_poc_db.sql postgresql:/
+docker exec -it postgresql psql -U postgres -f /create_poc_db.sql
 sleep 10
 
 echo  "Creating Book POC APP container..."

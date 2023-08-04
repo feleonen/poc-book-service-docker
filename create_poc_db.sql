@@ -1,17 +1,5 @@
-USE MASTER
-GO
+CREATE DATABASE poc;
 
-CREATE DATABASE POC 
-GO
+CREATE USER book_poc WITH PASSWORD 'X!&2kf@M5v5j8VV$';
 
-CREATE LOGIN book_poc WITH PASSWORD = 'X!&2kf@M5v5j8VV$'
-GO
-
-USE POC
-GO
-
-CREATE USER book_poc FOR LOGIN book_poc
-GO
-
-EXEC sp_addrolemember 'db_owner', book_poc
-GO
+GRANT ALL PRIVILEGES ON DATABASE poc TO book_poc;
